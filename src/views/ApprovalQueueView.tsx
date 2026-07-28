@@ -167,13 +167,12 @@ function RejectModal({
 // ─── Action Card ───────────────────────────────────────────────────────────
 
 function ActionCard({
-  item, onApprove, onReject, onExecute, onReset,
+  item, onApprove, onReject, onExecute,
 }: {
   item: AIApprovalItem;
   onApprove: (id: string) => void;
   onReject:  (item: AIApprovalItem) => void;
   onExecute: (id: string) => void;
-  onReset:   (id: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const sm = STATUS_META[item.status];
@@ -344,43 +343,16 @@ function ActionCard({
           )}
 
           {item.status === 'approved' && (
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button
-                onClick={() => onExecute(item.id)}
-                style={{
-                  padding: '8px 20px', borderRadius: 6, fontSize: 12, fontWeight: 600,
-                  background: 'rgba(0,212,255,0.12)', border: '1px solid rgba(0,212,255,0.35)',
-                  color: 'var(--cyan)', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: 6,
-                }}
-              >
-                <PlayCircle size={13} />Execute Action
-              </button>
-              <button
-                onClick={() => onReset(item.id)}
-                style={{
-                  padding: '8px 20px', borderRadius: 6, fontSize: 12, fontWeight: 600,
-                  background: 'rgba(255,214,0,0.08)', border: '1px solid rgba(255,214,0,0.3)',
-                  color: '#FFD600', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: 6,
-                }}
-              >
-                <RotateCcw size={13} />Reset to Pending
-              </button>
-            </div>
-          )}
-
-          {(item.status === 'rejected' || item.status === 'executed') && (
             <button
-              onClick={() => onReset(item.id)}
+              onClick={() => onExecute(item.id)}
               style={{
                 padding: '8px 20px', borderRadius: 6, fontSize: 12, fontWeight: 600,
-                background: 'rgba(255,214,0,0.08)', border: '1px solid rgba(255,214,0,0.3)',
-                color: '#FFD600', cursor: 'pointer',
+                background: 'rgba(0,212,255,0.12)', border: '1px solid rgba(0,212,255,0.35)',
+                color: 'var(--cyan)', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', gap: 6,
               }}
             >
-              <RotateCcw size={13} />Reset to Pending
+              <PlayCircle size={13} />Execute Action
             </button>
           )}
         </div>
@@ -437,8 +409,9 @@ export default function ApprovalQueueView() {
     try { await execute(id); } catch { /* handled by context */ }
   };
 
-  const handleReset = async (id: string) => {
-    try { await resetToPending(id); } catch { /* handled by context */ }
+  const handleResetAllApproved = async () => {
+    const approved = approvalQueue.filter(i => i.status === 'approved');
+    await Promise.all(approved.map(i => resetToPending(i.id).catch(() => null)));
   };
 
   return (
@@ -461,18 +434,34 @@ export default function ApprovalQueueView() {
             Human-in-the-loop review for all agentic actions proposed by Lumina AI
           </div>
         </div>
-        <button
-          onClick={() => { setLoading(true); refreshQueue().finally(() => setLoading(false)); }}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 6,
-            padding: '8px 14px', borderRadius: 6, fontSize: 12, fontWeight: 600,
-            background: 'var(--surface)', border: '1px solid var(--border)',
-            color: 'var(--text-muted)', cursor: 'pointer',
-          }}
-        >
-          <RotateCcw size={13} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-          Refresh
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {counts.approved > 0 && (
+            <button
+              onClick={handleResetAllApproved}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '8px 14px', borderRadius: 6, fontSize: 12, fontWeight: 600,
+                background: 'rgba(255,214,0,0.08)', border: '1px solid rgba(255,214,0,0.3)',
+                color: '#FFD600', cursor: 'pointer',
+              }}
+            >
+              <RotateCcw size={13} />
+              Reset Approved to Pending ({counts.approved})
+            </button>
+          )}
+          <button
+            onClick={() => { setLoading(true); refreshQueue().finally(() => setLoading(false)); }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              padding: '8px 14px', borderRadius: 6, fontSize: 12, fontWeight: 600,
+              background: 'var(--surface)', border: '1px solid var(--border)',
+              color: 'var(--text-muted)', cursor: 'pointer',
+            }}
+          >
+            <RotateCcw size={13} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Stat cards (clickable filters) */}
@@ -551,7 +540,6 @@ export default function ApprovalQueueView() {
               onApprove={handleApprove}
               onReject={setRejectTarget}
               onExecute={handleExecute}
-              onReset={handleReset}
             />
           ))}
         </div>
