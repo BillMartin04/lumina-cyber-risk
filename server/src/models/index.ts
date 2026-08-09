@@ -680,7 +680,7 @@ export interface KRIWithDomain extends KRI {
   domainColor: string;
 }
 
-export interface ActionItem extends Issue {
+export interface RiskActionItem extends Issue {
   riskName: string;
   domainId: string;
   domainName: string;
@@ -861,4 +861,58 @@ export interface ArchitectureData {
   models:               ModelProvenance[];
   containmentBoundaries: ContainmentBoundary[];
   containmentStats:     ContainmentStats;
+}
+
+// ─── Wave 4A — Action Items (Closed Loop Remediation) ──────────────────────
+
+export type ActionItemStatus =
+  | 'open'
+  | 'assigned'
+  | 'in-progress'
+  | 'evidence-provided'
+  | 'verified'
+  | 'closed';
+
+export type ActionItemPriority = 'critical' | 'high' | 'medium' | 'low';
+
+export interface AuditLogEntry {
+  id:          string;
+  timestamp:   string;
+  actor:       string;
+  fromStatus:  ActionItemStatus | null;
+  toStatus:    ActionItemStatus;
+  note?:       string;
+  evidenceId?: string;
+}
+
+export interface ActionItem {
+  id:              string;
+  title:           string;
+  description:     string;
+  domain:          string;
+  priority:        ActionItemPriority;
+  status:          ActionItemStatus;
+  assignee?:       string;
+  evidenceId?:     string;
+  dueDate?:        string;
+  createdAt:       string;
+  updatedAt:       string;
+  resolvedAt?:     string;
+  auditLog:        AuditLogEntry[];
+}
+
+export interface ActionItemStats {
+  total:            number;
+  open:             number;
+  assigned:         number;
+  inProgress:       number;
+  evidenceProvided: number;
+  verified:         number;
+  closed:           number;
+  overdue:          number;
+}
+
+export interface ActionItemsData {
+  items: ActionItem[];
+  stats: ActionItemStats;
 }

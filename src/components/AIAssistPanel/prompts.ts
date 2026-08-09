@@ -99,6 +99,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'Model provenance gaps',      prompt: 'Identify models with flagged provenance or significant drift and explain the governance risk they create.', action: 'analyze-controls' },
         { label: 'Circuit breaker status',     prompt: 'Our Human Approval Gate circuit breaker is half-open. What does this mean and what actions should we take?', action: 'policy-guidance' },
       ];
+    case 'action-items':
+      return [
+        { label: 'Overdue item analysis',      prompt: 'Analyse all overdue action items, explain the residual risk they create, and recommend priority order for remediation.', action: 'risk-deep-dive' },
+        { label: 'Evidence review guidance',   prompt: 'What criteria should a GRC analyst use when reviewing and verifying evidence submitted for action items?', action: 'policy-guidance' },
+        { label: 'Remediation bottlenecks',    prompt: 'Where are the bottlenecks in our closed-loop remediation workflow based on current action item status distribution?', action: 'analyze-controls' },
+        { label: 'Draft closure summary',      prompt: 'Draft a risk closure summary for action items currently in evidence-provided or verified status, suitable for a risk committee report.', action: 'report-draft' },
+      ];
     case 'scoring':
       return [
         { label: 'Explain composite score',    prompt: 'Explain why the composite risk score is at its current level and what is driving it highest.', action: 'risk-deep-dive' },
