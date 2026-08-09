@@ -145,6 +145,14 @@ export default function NavSidebar() {
         <span>Architecture</span>
       </button>
 
+      <button
+        className={`nav-item ${pathname === '/action-items' ? 'active' : ''}`}
+        onClick={() => navigate('/action-items')}
+      >
+        <ClipboardList size={14} color={pathname === '/action-items' ? 'var(--cyan)' : undefined} />
+        <span>Action Items</span>
+      </button>
+
       <div className="nav-section-label">Other</div>
 
       <button className="nav-item disabled" disabled>

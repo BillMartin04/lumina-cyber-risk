@@ -14,6 +14,7 @@ import { dataSovereigntyRouter }   from './data-sovereignty.routes';
 import { scoringRouter }           from './scoring.routes';
 import { aiFinOpsRouter }          from './ai-finops.routes';
 import { architectureRouter }      from './architecture.routes';
+import actionItemsRouter            from './action-items.routes';
 
 export const router = Router();
 
@@ -35,3 +36,4 @@ router.use('/data-sovereignty',   dataSovereigntyRouter);
 router.use('/scoring',            scoringRouter);
 router.use('/ai-finops',          aiFinOpsRouter);
 router.use('/architecture',       architectureRouter);
+router.use('/action-items',       actionItemsRouter);

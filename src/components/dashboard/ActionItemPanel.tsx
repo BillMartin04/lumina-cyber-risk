@@ -1,5 +1,5 @@
 import { AlertTriangle } from 'lucide-react';
-import type { ActionItem } from '../../models';
+import type { RiskActionItem as ActionItem } from '../../models';
 
 interface Props {
   items: ActionItem[];

@@ -1,4 +1,4 @@
-import type { OverallStats, KRIWithDomain, ActionItem } from '../models';
+import type { OverallStats, KRIWithDomain, RiskActionItem } from '../models';
 import type { IDomainRepository } from '../repositories/DomainRepository';
 import { domainRepository } from '../repositories/DomainRepository';
 import type { IStatsService } from './interfaces/IStatsService';
@@ -38,7 +38,7 @@ class StatsServiceImpl implements IStatsService {
       .slice(0, limit);
   }
 
-  getActionItems(limit = 8): ActionItem[] {
+  getActionItems(limit = 8): RiskActionItem[] {
     return this.repo.findAll()
       .flatMap(d => d.risks.map(r => ({ ...r, domainId: d.id, domainName: d.name })))
       .flatMap(r => r.issues.map(i => ({

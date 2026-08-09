@@ -15,6 +15,7 @@ import ScoringView from './views/ScoringView';
 import ApprovalQueueView from './views/ApprovalQueueView';
 import AIFinOpsView from './views/AIFinOpsView';
 import ArchitectureView from './views/ArchitectureView';
+import ActionItemsView from './views/ActionItemsView';
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/approval-queue"   element={<ApprovalQueueView />} />
         <Route path="/ai-finops"        element={<AIFinOpsView />} />
         <Route path="/architecture"     element={<ArchitectureView />} />
+        <Route path="/action-items"     element={<ActionItemsView />} />
       </Route>
     </Routes>
   );

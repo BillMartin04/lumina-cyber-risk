@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { DomainService }  from '../services/DomainService';
 import { StatsService }   from '../services/StatsService';
-import type { Domain, OverallStats, KRIWithDomain, ActionItem } from '../models';
+import type { Domain, OverallStats, KRIWithDomain, RiskActionItem } from '../models';
 
 export interface DashboardViewModel {
   domains:     Domain[];
   stats:       OverallStats;
   topKRIs:     KRIWithDomain[];
-  actionItems: ActionItem[];
+  actionItems: RiskActionItem[];
 }
 
 export function useDashboard(): DashboardViewModel {
