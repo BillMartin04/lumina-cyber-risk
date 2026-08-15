@@ -587,18 +587,20 @@ export interface AIAssistResponse {
 }
 
 export interface AIApprovalItem {
-  id:              string;
-  proposed_action: string;
-  description:     string;
-  impact:          string;
-  risk_level:      'low' | 'medium' | 'high' | 'critical';
-  status:          'pending' | 'approved' | 'rejected' | 'executed';
-  tier:            'analyst' | 'executor' | 'orchestrator';
-  context:         Record<string, unknown>;
-  created_at:      string;
-  resolved_at?:    string;
-  resolved_by?:    string;
-  result?:         string;
+  id:                   string;
+  proposed_action:      string;
+  description:          string;
+  impact:               string;
+  risk_level:           'low' | 'medium' | 'high' | 'critical';
+  status:               'pending' | 'approved' | 'rejected' | 'executed';
+  tier:                 'analyst' | 'executor' | 'orchestrator';
+  context:              Record<string, unknown>;
+  created_at:           string;
+  resolved_at?:         string;
+  resolved_by?:         string;
+  result?:              string;
+  expiry_date?:         string;
+  compensating_control?: string;
 }
 
 export interface AIStatus {

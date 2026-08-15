@@ -85,6 +85,8 @@ class ApprovalQueueItem(BaseModel):
     resolved_at: Optional[str] = None
     resolved_by: Optional[str] = None
     result: Optional[str] = None
+    expiry_date: Optional[str] = None
+    compensating_control: Optional[str] = None
 
 
 # ── Status ────────────────────────────────────────────────────────────────────
