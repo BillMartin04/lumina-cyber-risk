@@ -80,6 +80,8 @@ class AgenticServiceImpl(IAgenticService):
                 risk_level="medium",
                 tier="executor",
                 status="pending",
+                expiry_date="2026-08-31",
+                compensating_control="Manual attestation checklist in place via SharePoint until automation is approved",
                 context={"domain": "Identity & Access Management", "controls": 4, "due": "2026-07-25"},
             ),
             # Pending — Analyst tier
@@ -90,6 +92,8 @@ class AgenticServiceImpl(IAgenticService):
                 risk_level="high",
                 tier="analyst",
                 status="pending",
+                expiry_date="2026-08-15",
+                compensating_control="Shadow AI usage monitored via DLP alerts and monthly manual review by Risk team",
                 context={"risk": "Shadow AI Usage", "domain": "AI & Emerging Technology", "priority": "P1"},
             ),
             # Pending — Orchestrator tier (highest autonomy request)
@@ -100,6 +104,8 @@ class AgenticServiceImpl(IAgenticService):
                 risk_level="critical",
                 tier="orchestrator",
                 status="pending",
+                expiry_date="2026-08-05",
+                compensating_control="Enhanced vendor monitoring in place; weekly risk review by CISO until board escalation is actioned",
                 context={"domain": "Third-Party & Vendor Risk", "score": 76, "threshold": 75, "committee": "Board Audit & Risk Committee"},
             ),
             # Pending — Executor tier
@@ -110,9 +116,11 @@ class AgenticServiceImpl(IAgenticService):
                 risk_level="medium",
                 tier="executor",
                 status="pending",
+                expiry_date="2026-09-15",
+                compensating_control="Risk Manager acting as interim owner; all decisions require CISO sign-off",
                 context={"domain": "Data Security & Privacy", "gap": "unassigned since 2026-06-01"},
             ),
-            # Approved — awaiting execution
+            # Approved — awaiting execution (expired)
             ApprovalQueueItem(
                 proposed_action="generate-board-report",
                 description="Generate Q2 2026 Board cyber risk summary report with composite score trend",
@@ -122,6 +130,8 @@ class AgenticServiceImpl(IAgenticService):
                 status="approved",
                 resolved_by="Sarah Chen (CISO)",
                 resolved_at="2026-07-10T09:14:22",
+                expiry_date="2026-07-20",
+                compensating_control="Manual board pack prepared by Risk Analyst as interim deliverable",
                 context={"period": "Q2 2026", "audience": "Board Audit & Risk Committee"},
             ),
             # Approved — awaiting execution
@@ -134,6 +144,8 @@ class AgenticServiceImpl(IAgenticService):
                 status="approved",
                 resolved_by="James Okafor (Risk Manager)",
                 resolved_at="2026-07-11T14:30:00",
+                expiry_date="2026-08-11",
+                compensating_control="Manual email reminders sent by Risk Manager on weekly basis",
                 context={"owners": 3, "overdue_controls": 7, "escalation_trigger": "48h"},
             ),
             # Rejected
@@ -147,6 +159,8 @@ class AgenticServiceImpl(IAgenticService):
                 resolved_by="Wei Zhang (IAM Lead)",
                 resolved_at="2026-07-09T11:05:44",
                 result="Rejected: batch job dependency not confirmed. Manual review required before any revocation. Re-submit with confirmed dependency mapping.",
+                expiry_date="2026-09-01",
+                compensating_control="Quarterly access review performed manually; accounts flagged for next IAM governance cycle",
                 context={"accounts": 12, "inactive_days": 90, "domain": "Identity & Access Management"},
             ),
             # Executed
@@ -160,6 +174,8 @@ class AgenticServiceImpl(IAgenticService):
                 resolved_by="Priya Nair (Risk Analyst)",
                 resolved_at="2026-07-08T16:22:11",
                 result="Issue RSEC-2026-047 created and assigned to Marcus Lee (AppSec Lead). Due date: 2026-08-08.",
+                expiry_date="2026-08-08",
+                compensating_control="WAF rules tightened and vulnerability scanning frequency increased to daily",
                 context={"domain": "Application Security", "cves": 3, "severity": "High"},
             ),
         ]

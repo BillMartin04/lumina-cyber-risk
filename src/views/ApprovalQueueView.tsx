@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   CheckCircle2, XCircle, PlayCircle, Clock, Filter,
-  AlertTriangle, ChevronRight, RotateCcw, Layers,
+  AlertTriangle, ChevronRight, RotateCcw, Layers, Calendar, ShieldCheck,
 } from 'lucide-react';
 import type { AIApprovalItem } from '../models';
 import { useAIAssist } from '../context/AIAssistContext';
@@ -49,6 +49,33 @@ function elapsed(iso: string) {
   if (h > 24) return `${Math.floor(h / 24)}d ago`;
   if (h > 0)  return `${h}h ${m}m ago`;
   return `${m}m ago`;
+}
+
+function fmtDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function expiryState(dateStr: string): 'expired' | 'soon' | 'ok' {
+  const diff = new Date(dateStr).getTime() - Date.now();
+  if (diff < 0) return 'expired';
+  if (diff < 14 * 24 * 3_600_000) return 'soon';
+  return 'ok';
+}
+
+function ExpiryBadge({ dateStr }: { dateStr: string }) {
+  const state = expiryState(dateStr);
+  const color = state === 'expired' ? '#FF5252' : state === 'soon' ? '#FFD600' : '#00E676';
+  const label = state === 'expired' ? 'EXPIRED' : state === 'soon' ? 'EXPIRING SOON' : 'Expires';
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      background: `${color}15`, color, border: `1px solid ${color}40`,
+      borderRadius: 4, padding: '1px 7px', fontSize: 9, fontWeight: 700,
+    }}>
+      <Calendar size={9} />
+      {label} {fmtDate(dateStr)}
+    </span>
+  );
 }
 
 // ─── Stat Card ─────────────────────────────────────────────────────────────
@@ -217,6 +244,7 @@ function ActionCard({
               }}>
                 {sm.label}
               </span>
+              {item.expiry_date && <ExpiryBadge dateStr={item.expiry_date} />}
             </div>
 
             <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 6 }}>
@@ -302,6 +330,25 @@ function ActionCard({
               <strong style={{ color: 'var(--text)' }}>
                 {item.status === 'rejected' ? 'Rejection Reason' : 'Execution Result'}:
               </strong>{' '}{item.result}
+            </div>
+          )}
+
+          {/* Compensating Control */}
+          {item.compensating_control && (
+            <div style={{
+              background: 'rgba(0,230,118,0.06)', border: '1px solid rgba(0,230,118,0.2)',
+              borderRadius: 6, padding: '10px 12px', marginBottom: 14,
+              display: 'flex', alignItems: 'flex-start', gap: 8,
+            }}>
+              <ShieldCheck size={13} color="#00E676" style={{ marginTop: 1, flexShrink: 0 }} />
+              <div>
+                <div style={{ fontSize: 10, color: '#00E676', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>
+                  Compensating Control
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                  {item.compensating_control}
+                </div>
+              </div>
             </div>
           )}
 
