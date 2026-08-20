@@ -11,6 +11,20 @@ const RISK_COLOR: Record<string, string> = {
   low: '#00E676', medium: '#FFD600', high: '#FF8C00', critical: '#FF5252',
 };
 
+const CRITICALITY_COLOR: Record<string, string> = {
+  'mission-critical':  '#FF5252',
+  'business-critical': '#FF8C00',
+  'important':         '#FFD600',
+  'standard':          '#4FC3F7',
+};
+
+const CRITICALITY_LABEL: Record<string, string> = {
+  'mission-critical':  'Mission Critical',
+  'business-critical': 'Business Critical',
+  'important':         'Important',
+  'standard':          'Standard',
+};
+
 const STATUS_COLOR: Record<string, string> = {
   active: '#00E676', sandboxed: '#FFD600', retired: '#666', 'under-review': '#FF8C00',
 };
@@ -85,6 +99,7 @@ function AgentCard({ agent }: { agent: AIAgent }) {
               <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{agent.name}</span>
               <Badge label={agent.status.replace('-', ' ')} color={STATUS_COLOR[agent.status]} />
               <Badge label={agent.riskTier} color={RISK_COLOR[agent.riskTier]} />
+              <Badge label={CRITICALITY_LABEL[agent.criticalityLevel]} color={CRITICALITY_COLOR[agent.criticalityLevel]} />
               <Badge label={agent.framework} color="#4FC3F7" />
               <Badge label={`Oversight: ${agent.humanOversight}`} color="#CE93D8" />
             </div>
@@ -154,6 +169,17 @@ function AgentCard({ agent }: { agent: AIAgent }) {
             </div>
           </div>
 
+          {/* Business Impact */}
+          <div style={{
+            background: `${CRITICALITY_COLOR[agent.criticalityLevel]}08`,
+            border: `1px solid ${CRITICALITY_COLOR[agent.criticalityLevel]}30`,
+            borderRadius: 6, padding: '10px 12px', fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5,
+          }}>
+            <strong style={{ color: CRITICALITY_COLOR[agent.criticalityLevel] }}>
+              Business Impact ({CRITICALITY_LABEL[agent.criticalityLevel]}):
+            </strong>{' '}{agent.businessImpact}
+          </div>
+
           {/* Containment */}
           <div style={{
             background: `${maxToolRisk}08`, border: `1px solid ${maxToolRisk}25`,
@@ -176,20 +202,24 @@ function AgentCard({ agent }: { agent: AIAgent }) {
 
 function AgentInventoryTab({ agents }: { agents: AIAgent[] }) {
   const counts = {
-    active:       agents.filter(a => a.status === 'active').length,
-    sandboxed:    agents.filter(a => a.status === 'sandboxed').length,
-    underReview:  agents.filter(a => a.status === 'under-review').length,
-    critical:     agents.filter(a => a.riskTier === 'critical').length,
+    active:          agents.filter(a => a.status === 'active').length,
+    sandboxed:       agents.filter(a => a.status === 'sandboxed').length,
+    underReview:     agents.filter(a => a.status === 'under-review').length,
+    critical:        agents.filter(a => a.riskTier === 'critical').length,
+    missionCritical: agents.filter(a => a.criticalityLevel === 'mission-critical').length,
+    bizCritical:     agents.filter(a => a.criticalityLevel === 'business-critical').length,
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-        <StatChip label="Total Agents"    value={agents.length}     color="var(--cyan)" />
-        <StatChip label="Active"          value={counts.active}     color="#00E676" />
-        <StatChip label="Sandboxed"       value={counts.sandboxed}  color="#FFD600" />
-        <StatChip label="Under Review"    value={counts.underReview} color="#FF8C00" />
-        <StatChip label="Critical Tier"   value={counts.critical}   color="#FF5252" />
+        <StatChip label="Total Agents"       value={agents.length}          color="var(--cyan)" />
+        <StatChip label="Active"             value={counts.active}          color="#00E676" />
+        <StatChip label="Sandboxed"          value={counts.sandboxed}       color="#FFD600" />
+        <StatChip label="Under Review"       value={counts.underReview}     color="#FF8C00" />
+        <StatChip label="Critical Tier"      value={counts.critical}        color="#FF5252" />
+        <StatChip label="Mission Critical"   value={counts.missionCritical} color="#FF5252" />
+        <StatChip label="Business Critical"  value={counts.bizCritical}     color="#FF8C00" />
       </div>
       {agents.map(a => <AgentCard key={a.id} agent={a} />)}
     </div>

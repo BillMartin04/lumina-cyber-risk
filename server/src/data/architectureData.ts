@@ -30,6 +30,8 @@ const agents: AIAgent[] = [
     lastAudit:        '2026-06-30',
     containmentPolicy: 'Read-only data access; all proposed actions require human approval before execution.',
     isolationLevel:   'partial',
+    criticalityLevel: 'business-critical',
+    businessImpact:   'Drives control recommendations and risk posture decisions consumed by CISO and Board. Degradation delays risk response by 24–48 hours.',
   },
   {
     id:            'agent-attestation-scheduler',
@@ -55,6 +57,8 @@ const agents: AIAgent[] = [
     lastAudit:        '2026-06-15',
     containmentPolicy: 'Limited write scope to attestation status only; no access to risk data or financial systems.',
     isolationLevel:   'full',
+    criticalityLevel: 'important',
+    businessImpact:   'Supports quarterly attestation cycle. Failure causes manual follow-up overhead for Risk Manager; no direct customer or regulatory impact.',
   },
   {
     id:            'agent-board-reporter',
@@ -80,6 +84,8 @@ const agents: AIAgent[] = [
     lastAudit:        '2026-06-28',
     containmentPolicy: 'Read-only access; report drafts staged in isolated holding area pending CISO review.',
     isolationLevel:   'full',
+    criticalityLevel: 'business-critical',
+    businessImpact:   'Produces Board and executive risk reporting. Failure requires full manual report preparation — estimated 3-day effort per reporting cycle.',
   },
   {
     id:            'agent-vendor-monitor',
@@ -105,6 +111,8 @@ const agents: AIAgent[] = [
     lastAudit:        '2026-06-22',
     containmentPolicy: 'Sandboxed — network access revoked pending investigation of anomalous query pattern on 2026-06-22. All external API calls suspended.',
     isolationLevel:   'full',
+    criticalityLevel: 'important',
+    businessImpact:   'Provides continuous vendor risk scoring. Currently sandboxed — manual vendor reviews in place as compensating control.',
   },
   {
     id:            'agent-ir-orchestrator',
@@ -132,6 +140,8 @@ const agents: AIAgent[] = [
     lastAudit:        '2026-07-05',
     containmentPolicy: 'Under review — not deployed to production. EU AI Act high-risk assessment in progress. Requires Board approval before activation.',
     isolationLevel:   'full',
+    criticalityLevel: 'mission-critical',
+    businessImpact:   'When activated, will coordinate multi-team incident response. Failure or misconfiguration during an incident could delay containment by hours with potential regulatory notification implications.',
   },
   {
     id:            'agent-shadow-detector',
@@ -158,6 +168,8 @@ const agents: AIAgent[] = [
     lastAudit:        '2026-07-01',
     containmentPolicy: 'Read-only across expense/network/procurement; write limited to AI Registry shadow flag field.',
     isolationLevel:   'partial',
+    criticalityLevel: 'standard',
+    businessImpact:   'Supports shadow AI governance programme. Failure results in delayed detection of unauthorised AI tool usage; risk is managed through periodic manual audits.',
   },
 ];
 
