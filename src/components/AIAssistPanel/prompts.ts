@@ -99,6 +99,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'Model provenance gaps',      prompt: 'Identify models with flagged provenance or significant drift and explain the governance risk they create.', action: 'analyze-controls' },
         { label: 'Circuit breaker status',     prompt: 'Our Human Approval Gate circuit breaker is half-open. What does this mean and what actions should we take?', action: 'policy-guidance' },
       ];
+    case 'control-testing':
+      return [
+        { label: 'Failed control analysis',  prompt: 'Analyse all failed control tests, explain the risks they create, and recommend priority remediation actions.', action: 'risk-deep-dive' },
+        { label: 'Testing coverage gaps',    prompt: 'Which domains have the weakest control test coverage or lowest average scores, and what does that mean for our risk posture?', action: 'analyze-controls' },
+        { label: 'Overdue test risk',         prompt: 'What are the governance and compliance risks created by overdue control tests, and what should we do about them?', action: 'policy-guidance' },
+        { label: 'Test improvement plan',    prompt: 'Based on current test results and findings, draft a control improvement plan prioritised by risk impact.', action: 'recommend-controls' },
+      ];
     case 'action-items':
       return [
         { label: 'Overdue item analysis',      prompt: 'Analyse all overdue action items, explain the residual risk they create, and recommend priority order for remediation.', action: 'risk-deep-dive' },

@@ -916,3 +916,37 @@ export interface ActionItemsData {
   items: ActionItem[];
   stats: ActionItemStats;
 }
+
+// ─── Control Performance Testing ───────────────────────────────────────────
+export type ControlTestResult = 'pass' | 'partial' | 'fail';
+export type ControlTestType   = 'automated' | 'manual' | 'penetration-test';
+
+export interface ControlTest {
+  id:          string;
+  controlId:   string;
+  controlName: string;
+  domain:      string;
+  testType:    ControlTestType;
+  result:      ControlTestResult;
+  tester:      string;
+  testedAt:    string;
+  nextTestDue: string;
+  evidenceRef: string;
+  score:       number;
+  notes:       string;
+  findings:    string[];
+}
+
+export interface ControlTestStats {
+  total:        number;
+  pass:         number;
+  partial:      number;
+  fail:         number;
+  avgScore:     number;
+  overdueTests: number;
+}
+
+export interface ControlTestsData {
+  tests: ControlTest[];
+  stats: ControlTestStats;
+}

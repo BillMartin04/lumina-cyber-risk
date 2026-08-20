@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Shield, Database, Monitor, Code, Network,
-  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins,
+  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical,
   type LucideIcon,
 } from 'lucide-react';
 import { DomainService } from '../services/DomainService';
@@ -151,6 +151,14 @@ export default function NavSidebar() {
       >
         <ClipboardList size={14} color={pathname === '/action-items' ? 'var(--cyan)' : undefined} />
         <span>Action Items</span>
+      </button>
+
+      <button
+        className={`nav-item ${pathname === '/control-testing' ? 'active' : ''}`}
+        onClick={() => navigate('/control-testing')}
+      >
+        <FlaskConical size={14} color={pathname === '/control-testing' ? 'var(--cyan)' : undefined} />
+        <span>Control Testing</span>
       </button>
 
       <div className="nav-section-label">Other</div>
