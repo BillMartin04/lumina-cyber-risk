@@ -978,3 +978,40 @@ export interface ControlTestsData {
   tests: ControlTest[];
   stats: ControlTestStats;
 }
+
+// ─── Incident Triggers ─────────────────────────────────────────────────────
+export type IncidentTriggerStatus   = 'active' | 'acknowledged' | 'resolved';
+export type IncidentTriggerSeverity = 'critical' | 'high' | 'medium' | 'low';
+
+export interface IncidentTrigger {
+  id:                 string;
+  kriName:            string;
+  domainId:           string;
+  domainName:         string;
+  currentValue:       number;
+  threshold:          number;
+  unit:               string;
+  breachedAt:         string;
+  status:             IncidentTriggerStatus;
+  severity:           IncidentTriggerSeverity;
+  acknowledgedBy?:    string;
+  acknowledgedAt?:    string;
+  resolvedBy?:        string;
+  resolvedAt?:        string;
+  linkedPlaybookId:   string;
+  linkedPlaybookName: string;
+  triggerNote:        string;
+}
+
+export interface IncidentTriggerStats {
+  total:        number;
+  active:       number;
+  acknowledged: number;
+  resolved:     number;
+  critical:     number;
+}
+
+export interface IncidentTriggersData {
+  triggers: IncidentTrigger[];
+  stats:    IncidentTriggerStats;
+}

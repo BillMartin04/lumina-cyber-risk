@@ -16,6 +16,7 @@ import { aiFinOpsRouter }          from './ai-finops.routes';
 import { architectureRouter }      from './architecture.routes';
 import actionItemsRouter            from './action-items.routes';
 import controlTestsRouter           from './control-tests.routes';
+import incidentTriggersRouter       from './incident-triggers.routes';
 
 export const router = Router();
 
@@ -39,3 +40,4 @@ router.use('/ai-finops',          aiFinOpsRouter);
 router.use('/architecture',       architectureRouter);
 router.use('/action-items',       actionItemsRouter);
 router.use('/control-tests',      controlTestsRouter);
+router.use('/incident-triggers',  incidentTriggersRouter);

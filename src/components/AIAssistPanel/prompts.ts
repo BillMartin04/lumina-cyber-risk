@@ -113,6 +113,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'Remediation bottlenecks',    prompt: 'Where are the bottlenecks in our closed-loop remediation workflow based on current action item status distribution?', action: 'analyze-controls' },
         { label: 'Draft closure summary',      prompt: 'Draft a risk closure summary for action items currently in evidence-provided or verified status, suitable for a risk committee report.', action: 'report-draft' },
       ];
+    case 'incident-triggers':
+      return [
+        { label: 'Triage active triggers',     prompt: 'Triage all active incident triggers, explain the severity of each KRI breach, and recommend the immediate response actions.', action: 'risk-deep-dive' },
+        { label: 'Playbook alignment check',   prompt: 'Are the resilience playbooks linked to our current incident triggers appropriate for the KRI breaches observed? Identify any misalignments.', action: 'analyze-controls' },
+        { label: 'Executive incident brief',   prompt: 'Draft an executive incident brief covering active KRI breaches, impacted domains, linked playbooks, and recommended escalation actions.', action: 'report-draft' },
+        { label: 'Containment guidance',       prompt: 'For the highest-severity active triggers, what containment and remediation steps should be taken immediately to reduce the KRI breach?', action: 'recommend-controls' },
+      ];
     case 'scoring':
       return [
         { label: 'Explain composite score',    prompt: 'Explain why the composite risk score is at its current level and what is driving it highest.', action: 'risk-deep-dive' },
