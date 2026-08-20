@@ -758,6 +758,8 @@ export interface AgentTool {
   riskLevel: 'low' | 'medium' | 'high' | 'critical';
 }
 
+export type AssetCriticalityLevel = 'mission-critical' | 'business-critical' | 'important' | 'standard';
+
 export interface AIAgent {
   id:               string;
   name:             string;
@@ -778,6 +780,8 @@ export interface AIAgent {
   lastAudit:        string;
   containmentPolicy: string;
   isolationLevel:   'full' | 'partial' | 'none';
+  criticalityLevel: AssetCriticalityLevel;
+  businessImpact:   string;
 }
 
 export type RAGSourceType  = 'vector-db' | 'document-store' | 'live-api' | 'database' | 'web-scrape';
