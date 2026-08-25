@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Shield, Database, Monitor, Code, Network,
-  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical, Siren,
+  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical, Siren, FileDown,
   type LucideIcon,
 } from 'lucide-react';
 import { DomainService } from '../services/DomainService';
@@ -167,6 +167,14 @@ export default function NavSidebar() {
       >
         <Siren size={14} color={pathname === '/incident-triggers' ? '#FF5252' : undefined} />
         <span>Incident Triggers</span>
+      </button>
+
+      <button
+        className={`nav-item ${pathname === '/export' ? 'active' : ''}`}
+        onClick={() => navigate('/export')}
+      >
+        <FileDown size={14} color={pathname === '/export' ? 'var(--cyan)' : undefined} />
+        <span>Export to Sheets</span>
       </button>
 
       <div className="nav-section-label">Other</div>

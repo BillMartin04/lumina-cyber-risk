@@ -18,6 +18,7 @@ import ArchitectureView from './views/ArchitectureView';
 import ActionItemsView from './views/ActionItemsView';
 import ControlTestingView from './views/ControlTestingView';
 import IncidentTriggerView from './views/IncidentTriggerView';
+import ExportView from './views/ExportView';
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/action-items"      element={<ActionItemsView />} />
         <Route path="/control-testing"   element={<ControlTestingView />} />
         <Route path="/incident-triggers" element={<IncidentTriggerView />} />
+        <Route path="/export"            element={<ExportView />} />
       </Route>
     </Routes>
   );
