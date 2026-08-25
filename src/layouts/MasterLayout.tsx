@@ -30,6 +30,7 @@ function PageContextSync() {
     else if (pathname.startsWith('/action-items'))     page = 'action-items';
     else if (pathname.startsWith('/control-testing'))   page = 'control-testing';
     else if (pathname.startsWith('/incident-triggers')) page = 'incident-triggers';
+    else if (pathname.startsWith('/export'))            page = 'export';
     setPageContext({ page, domainId, riskId });
   }, [pathname, domainId, riskId, setPageContext]);
 

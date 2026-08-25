@@ -127,6 +127,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'Framework gap analysis',     prompt: 'Based on our scoring, where are the largest gaps to achieve the next NIST CSF tier or DORA compliance level?', action: 'compliance-check' },
         { label: 'Score improvement plan',     prompt: 'What specific actions would have the greatest impact on reducing our composite risk score?', action: 'recommend-controls' },
       ];
+    case 'export':
+      return [
+        { label: 'Export strategy guidance',  prompt: 'What GRC datasets should we prioritise exporting for a quarterly board risk report, and in what format should they be presented?', action: 'policy-guidance' },
+        { label: 'Risk register review',       prompt: 'Based on our risk register data, summarise the top residual risk exposures across all domains and what they mean for our risk appetite.', action: 'risk-deep-dive' },
+        { label: 'KRI breach summary',         prompt: 'Summarise all KRIs currently in breach status and what regulatory or board reporting obligations they trigger.', action: 'compliance-check' },
+        { label: 'Integrated risk report',     prompt: 'Draft an integrated risk report narrative covering risk register, KRI breaches, open action items, and control test failures suitable for export to the risk committee.', action: 'report-draft' },
+      ];
     default:
       return [
         { label: 'General risk summary',       prompt: 'Provide a general cyber risk summary for this view.',                           action: 'summarize' },
