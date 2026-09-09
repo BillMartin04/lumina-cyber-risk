@@ -991,3 +991,98 @@ export interface IncidentTriggersData {
   triggers: IncidentTrigger[];
   stats:    IncidentTriggerStats;
 }
+
+// ─── CMDB — Configuration Management Database ──────────────────────────────
+export type CIClass =
+  | 'cmdb_ci_service'       // Business Service
+  | 'cmdb_ci_business_app'  // Business Application
+  | 'cmdb_ci_server'        // Server (physical/virtual)
+  | 'cmdb_ci_database'      // Database
+  | 'cmdb_ci_network'       // Network Device
+  | 'cmdb_ci_cloud'         // Cloud Instance / SaaS
+  | 'cmdb_ci_api'           // API / Microservice
+  | 'cmdb_ci_endpoint';     // Endpoint / Workstation
+
+export type CIOperationalStatus =
+  | 'operational'
+  | 'non-operational'
+  | 'in-maintenance'
+  | 'repair'
+  | 'retired';
+
+export type CIInstallStatus =
+  | 'installed'
+  | 'in-maintenance'
+  | 'pending-install'
+  | 'retired';
+
+export type CIBusinessCriticality =
+  | '1-critical'
+  | '2-high'
+  | '3-medium'
+  | '4-low';
+
+export type CIEnvironment =
+  | 'production'
+  | 'staging'
+  | 'development'
+  | 'test'
+  | 'dr';
+
+export type CIRelationshipType =
+  | 'depends-on'
+  | 'connects-to'
+  | 'hosted-on'
+  | 'contains'
+  | 'runs-on'
+  | 'uses';
+
+export interface ConfigurationItem {
+  id:                   string;
+  name:                 string;
+  shortDescription:     string;
+  ciClass:              CIClass;
+  operationalStatus:    CIOperationalStatus;
+  installStatus:        CIInstallStatus;
+  businessCriticality:  CIBusinessCriticality;
+  environment:          CIEnvironment;
+  ownedBy:              string;
+  managedBy:            string;
+  department:           string;
+  supportGroup?:        string;
+  location?:            string;
+  ipAddress?:           string;
+  fqdn?:                string;
+  dataClassification:   'public' | 'internal' | 'confidential' | 'restricted';
+  regulatoryScope:      string[];
+  linkedRiskDomainIds:  string[];
+  tags:                 string[];
+  lastUpdated:          string;
+  discoveredDate:       string;
+}
+
+export interface CIRelationship {
+  id:               string;
+  sourceId:         string;
+  targetId:         string;
+  relationshipType: CIRelationshipType;
+  description?:     string;
+}
+
+export interface CMDBStats {
+  total:              number;
+  critical:           number;
+  high:               number;
+  medium:             number;
+  low:                number;
+  operationalIssues:  number;
+  withRegulatoryScope: number;
+  byClass:            Record<string, number>;
+  byEnvironment:      Record<string, number>;
+}
+
+export interface CMDBData {
+  items:         ConfigurationItem[];
+  relationships: CIRelationship[];
+  stats:         CMDBStats;
+}
