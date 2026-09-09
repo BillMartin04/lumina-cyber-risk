@@ -19,6 +19,7 @@ import ActionItemsView from './views/ActionItemsView';
 import ControlTestingView from './views/ControlTestingView';
 import IncidentTriggerView from './views/IncidentTriggerView';
 import ExportView from './views/ExportView';
+import CMDBView from './views/CMDBView';
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/control-testing"   element={<ControlTestingView />} />
         <Route path="/incident-triggers" element={<IncidentTriggerView />} />
         <Route path="/export"            element={<ExportView />} />
+        <Route path="/cmdb"              element={<CMDBView />} />
       </Route>
     </Routes>
   );

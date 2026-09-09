@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Shield, Database, Monitor, Code, Network,
-  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical, Siren, FileDown,
+  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical, Siren, FileDown, Server,
   type LucideIcon,
 } from 'lucide-react';
 import { DomainService } from '../services/DomainService';
@@ -10,186 +11,138 @@ const DOMAIN_ICONS: Record<string, LucideIcon> = {
   Shield, Database, Monitor, Code, Network, Building, Cloud, Users, Cpu,
 };
 
+type Line = '1st' | '2nd';
+
+function LineToggle({ line, onChange }: { line: Line; onChange: (l: Line) => void }) {
+  return (
+    <div style={{
+      display: 'flex', gap: 0, background: 'var(--bg)', border: '1px solid var(--border)',
+      borderRadius: 7, padding: 2, marginBottom: 10,
+    }}>
+      {(['1st', '2nd'] as Line[]).map(l => (
+        <button
+          key={l}
+          onClick={() => onChange(l)}
+          style={{
+            flex: 1, padding: '5px 0', border: 'none', borderRadius: 5, cursor: 'pointer',
+            fontSize: 11, fontWeight: 700, letterSpacing: '0.03em',
+            background: line === l ? (l === '1st' ? 'var(--cyan)' : '#A78BFA') : 'transparent',
+            color: line === l ? '#000' : 'var(--text-muted)',
+            transition: 'all 0.15s',
+          }}
+        >
+          {l} Line
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function NavSidebar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const domains = DomainService.getAll();
 
+  const [line, setLine] = useState<Line>(() => {
+    try { return (localStorage.getItem('lumina-line') as Line) ?? '1st'; } catch { return '1st'; }
+  });
+
+  function handleLineChange(l: Line) {
+    setLine(l);
+    try { localStorage.setItem('lumina-line', l); } catch { /* noop */ }
+  }
+
+  function navBtn(
+    path: string, label: string, icon: React.ReactNode, activeColor = 'var(--cyan)',
+  ) {
+    const isActive = path === '/' ? pathname === '/' : pathname.startsWith(path);
+    return (
+      <button
+        key={path}
+        className={`nav-item ${isActive ? 'active' : ''}`}
+        onClick={() => navigate(path)}
+      >
+        <span style={{ color: isActive ? activeColor : undefined }}>{icon}</span>
+        <span>{label}</span>
+      </button>
+    );
+  }
+
   return (
     <nav className="nav-sidebar">
-      <div className="nav-section-label">Navigation</div>
+      {/* ── Line-of-Defence toggle ── */}
+      <LineToggle line={line} onChange={handleLineChange} />
 
-      <button
-        className={`nav-item ${pathname === '/' ? 'active' : ''}`}
-        onClick={() => navigate('/')}
-      >
-        <LayoutDashboard size={15} />
-        <span>Dashboard</span>
-      </button>
+      {/* ══════════════════════════════════════
+          1st LINE OF DEFENCE
+          ══════════════════════════════════════ */}
+      {line === '1st' && (
+        <>
+          <div className="nav-section-label">Navigation</div>
 
-      <div className="nav-section-label" style={{ marginTop: 12 }}>Risk Domains</div>
+          {navBtn('/', 'Dashboard', <LayoutDashboard size={15} />)}
 
-      {domains.map(domain => {
-        const Icon = DOMAIN_ICONS[domain.iconName] ?? Shield;
-        const isActive = pathname.startsWith(`/domain/${domain.id}`);
-        return (
-          <button
-            key={domain.id}
-            className={`nav-item ${isActive ? 'active' : ''}`}
-            onClick={() => navigate(`/domain/${domain.id}`)}
-          >
-            <div className="nav-domain-dot" style={{ background: domain.color }} />
-            <Icon size={13} color={isActive ? domain.color : undefined} />
-            <span>{domain.name}</span>
-          </button>
-        );
-      })}
+          <div className="nav-section-label" style={{ marginTop: 12 }}>Risk Domains</div>
 
-      <div style={{ flex: 1 }} />
+          {domains.map(domain => {
+            const Icon = DOMAIN_ICONS[domain.iconName] ?? Shield;
+            const isActive = pathname.startsWith(`/domain/${domain.id}`);
+            return (
+              <button
+                key={domain.id}
+                className={`nav-item ${isActive ? 'active' : ''}`}
+                onClick={() => navigate(`/domain/${domain.id}`)}
+              >
+                <div className="nav-domain-dot" style={{ background: domain.color }} />
+                <Icon size={13} color={isActive ? domain.color : undefined} />
+                <span>{domain.name}</span>
+              </button>
+            );
+          })}
 
-      <div className="nav-section-label">Governance</div>
+          <div style={{ flex: 1 }} />
 
-      <button
-        className={`nav-item ${pathname === '/governance' ? 'active' : ''}`}
-        onClick={() => navigate('/governance')}
-      >
-        <ShieldCheck size={14} color={pathname === '/governance' ? 'var(--low)' : undefined} />
-        <span>Governance</span>
-      </button>
+          <div className="nav-section-label">Governance</div>
 
-      <button
-        className={`nav-item ${pathname === '/resilience' ? 'active' : ''}`}
-        onClick={() => navigate('/resilience')}
-      >
-        <Activity size={14} color={pathname === '/resilience' ? 'var(--cyan)' : undefined} />
-        <span>Resilience</span>
-      </button>
+          {navBtn('/governance',        'Governance',        <ShieldCheck size={14} />,   'var(--low)')}
+          {navBtn('/resilience',        'Resilience',        <Activity size={14} />,      'var(--cyan)')}
+          {navBtn('/ai-governance',     'AI Governance',     <Brain size={14} />,         'var(--purple)')}
+          {navBtn('/evidence',          'Evidence',          <FileCheck size={14} />,     'var(--low)')}
+          {navBtn('/identities',        'Identities',        <UserCheck size={14} />,     'var(--cyan)')}
+          {navBtn('/workflows',         'Workflows',         <GitBranch size={14} />,     'var(--purple)')}
+          {navBtn('/ai-registry',       'AI Registry',       <ClipboardList size={14} />, 'var(--cyan)')}
+          {navBtn('/data-sovereignty',  'Data Sovereignty',  <Globe size={14} />,         'var(--cyan)')}
+          {navBtn('/scoring',           'Scoring',           <Calculator size={14} />,    'var(--cyan)')}
+          {navBtn('/approval-queue',    'Approval Queue',    <ListChecks size={14} />,    'var(--cyan)')}
+          {navBtn('/ai-finops',         'AI FinOps',         <Coins size={14} />,         'var(--cyan)')}
+          {navBtn('/architecture',      'Architecture',      <Network size={14} />,       'var(--cyan)')}
+          {navBtn('/cmdb',              'Asset & Config',    <Server size={14} />,        '#A78BFA')}
+          {navBtn('/action-items',      'Action Items',      <ClipboardList size={14} />, 'var(--cyan)')}
+          {navBtn('/control-testing',   'Control Testing',   <FlaskConical size={14} />,  'var(--cyan)')}
+          {navBtn('/incident-triggers', 'Incident Triggers', <Siren size={14} />,         '#FF5252')}
+          {navBtn('/export',            'Export to Sheets',  <FileDown size={14} />,      'var(--cyan)')}
 
-      <button
-        className={`nav-item ${pathname === '/ai-governance' ? 'active' : ''}`}
-        onClick={() => navigate('/ai-governance')}
-      >
-        <Brain size={14} color={pathname === '/ai-governance' ? 'var(--purple)' : undefined} />
-        <span>AI Governance</span>
-      </button>
+          <div className="nav-section-label">Other</div>
+          <button className="nav-item disabled" disabled><BarChart3 size={15} /><span>Reports</span><span className="nav-badge">Soon</span></button>
+          <button className="nav-item disabled" disabled><Settings size={15} /><span>Settings</span><span className="nav-badge">Soon</span></button>
+        </>
+      )}
 
-      <button
-        className={`nav-item ${pathname === '/evidence' ? 'active' : ''}`}
-        onClick={() => navigate('/evidence')}
-      >
-        <FileCheck size={14} color={pathname === '/evidence' ? 'var(--low)' : undefined} />
-        <span>Evidence</span>
-      </button>
+      {/* ══════════════════════════════════════
+          2nd LINE OF DEFENCE
+          ══════════════════════════════════════ */}
+      {line === '2nd' && (
+        <>
+          <div className="nav-section-label">2nd Line Overview</div>
 
-      <button
-        className={`nav-item ${pathname === '/identities' ? 'active' : ''}`}
-        onClick={() => navigate('/identities')}
-      >
-        <UserCheck size={14} color={pathname === '/identities' ? 'var(--cyan)' : undefined} />
-        <span>Identities</span>
-      </button>
+          {navBtn('/cmdb', 'Asset & Config (CMDB)', <Server size={14} />, '#A78BFA')}
 
-      <button
-        className={`nav-item ${pathname === '/workflows' ? 'active' : ''}`}
-        onClick={() => navigate('/workflows')}
-      >
-        <GitBranch size={14} color={pathname === '/workflows' ? 'var(--purple)' : undefined} />
-        <span>Workflows</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/ai-registry' ? 'active' : ''}`}
-        onClick={() => navigate('/ai-registry')}
-      >
-        <ClipboardList size={14} color={pathname === '/ai-registry' ? 'var(--cyan)' : undefined} />
-        <span>AI Registry</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/data-sovereignty' ? 'active' : ''}`}
-        onClick={() => navigate('/data-sovereignty')}
-      >
-        <Globe size={14} color={pathname === '/data-sovereignty' ? 'var(--cyan)' : undefined} />
-        <span>Data Sovereignty</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/scoring' ? 'active' : ''}`}
-        onClick={() => navigate('/scoring')}
-      >
-        <Calculator size={14} color={pathname === '/scoring' ? 'var(--cyan)' : undefined} />
-        <span>Scoring</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/approval-queue' ? 'active' : ''}`}
-        onClick={() => navigate('/approval-queue')}
-      >
-        <ListChecks size={14} color={pathname === '/approval-queue' ? 'var(--cyan)' : undefined} />
-        <span>Approval Queue</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/ai-finops' ? 'active' : ''}`}
-        onClick={() => navigate('/ai-finops')}
-      >
-        <Coins size={14} color={pathname === '/ai-finops' ? 'var(--cyan)' : undefined} />
-        <span>AI FinOps</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/architecture' ? 'active' : ''}`}
-        onClick={() => navigate('/architecture')}
-      >
-        <Network size={14} color={pathname === '/architecture' ? 'var(--cyan)' : undefined} />
-        <span>Architecture</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/action-items' ? 'active' : ''}`}
-        onClick={() => navigate('/action-items')}
-      >
-        <ClipboardList size={14} color={pathname === '/action-items' ? 'var(--cyan)' : undefined} />
-        <span>Action Items</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/control-testing' ? 'active' : ''}`}
-        onClick={() => navigate('/control-testing')}
-      >
-        <FlaskConical size={14} color={pathname === '/control-testing' ? 'var(--cyan)' : undefined} />
-        <span>Control Testing</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/incident-triggers' ? 'active' : ''}`}
-        onClick={() => navigate('/incident-triggers')}
-      >
-        <Siren size={14} color={pathname === '/incident-triggers' ? '#FF5252' : undefined} />
-        <span>Incident Triggers</span>
-      </button>
-
-      <button
-        className={`nav-item ${pathname === '/export' ? 'active' : ''}`}
-        onClick={() => navigate('/export')}
-      >
-        <FileDown size={14} color={pathname === '/export' ? 'var(--cyan)' : undefined} />
-        <span>Export to Sheets</span>
-      </button>
-
-      <div className="nav-section-label">Other</div>
-
-      <button className="nav-item disabled" disabled>
-        <BarChart3 size={15} />
-        <span>Reports</span>
-        <span className="nav-badge">Soon</span>
-      </button>
-
-      <button className="nav-item disabled" disabled>
-        <Settings size={15} />
-        <span>Settings</span>
-        <span className="nav-badge">Soon</span>
-      </button>
+          <div className="nav-section-label" style={{ marginTop: 10 }}>Coming Soon</div>
+          <button className="nav-item disabled" disabled><ShieldCheck size={14} /><span>Oversight Dashboard</span><span className="nav-badge">Soon</span></button>
+          <button className="nav-item disabled" disabled><Globe size={14} /><span>Compliance Register</span><span className="nav-badge">Soon</span></button>
+          <button className="nav-item disabled" disabled><BarChart3 size={14} /><span>Horizon Scanning</span><span className="nav-badge">Soon</span></button>
+        </>
+      )}
     </nav>
   );
 }

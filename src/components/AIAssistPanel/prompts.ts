@@ -134,6 +134,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'KRI breach summary',         prompt: 'Summarise all KRIs currently in breach status and what regulatory or board reporting obligations they trigger.', action: 'compliance-check' },
         { label: 'Integrated risk report',     prompt: 'Draft an integrated risk report narrative covering risk register, KRI breaches, open action items, and control test failures suitable for export to the risk committee.', action: 'report-draft' },
       ];
+    case 'cmdb':
+      return [
+        { label: 'Critical asset exposure',    prompt: 'Review all critical (1-critical) configuration items and identify which ones have the highest combined risk profile based on regulatory scope, operational status, and domain linkages.', action: 'risk-deep-dive' },
+        { label: 'Regulatory mapping gaps',    prompt: 'Which configuration items are in-scope for PCI-DSS, GDPR, or APRA-CPS-234 but lack adequate risk domain linkage or ownership assignment? Identify the gaps.', action: 'compliance-check' },
+        { label: 'Dependency chain analysis',  prompt: 'Analyse the CI relationship map and identify the most critical dependency chains — which single CIs, if they failed, would cascade across the most other business services?', action: 'risk-deep-dive' },
+        { label: 'Operational issues triage',  prompt: 'List all configuration items not in operational status, assess their business impact based on criticality and dependencies, and recommend a prioritised remediation order.', action: 'recommend-controls' },
+      ];
     default:
       return [
         { label: 'General risk summary',       prompt: 'Provide a general cyber risk summary for this view.',                           action: 'summarize' },
