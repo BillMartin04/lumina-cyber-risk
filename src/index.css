@@ -1,13 +1,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0b1525;
+  --bg: #0f2035;
   --bg-2: #0e1b2e;
   --card: #1a3252;
   --card-hover: #203c62;
   --card-elevated: #274a74;
-  --border: #1e3354;
-  --border-2: #274464;
+  --border: rgba(255, 255, 255, 0.18);
+  --border-2: rgba(255, 255, 255, 0.10);
   --border-accent: rgba(0, 212, 255, 0.4);
 
   --text: #f0f6ff;
