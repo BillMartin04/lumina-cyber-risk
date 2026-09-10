@@ -1,18 +1,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #060d1f;
-  --bg-2: #08111e;
-  --card: #0d1b30;
-  --card-hover: #112038;
-  --card-elevated: #162845;
-  --border: #162340;
-  --border-2: #1d2f52;
-  --border-accent: rgba(0, 212, 255, 0.25);
+  --bg: #0d1a2e;
+  --bg-2: #111f33;
+  --card: #182c47;
+  --card-hover: #1e3452;
+  --card-elevated: #243d5e;
+  --border: #1f3350;
+  --border-2: #28405f;
+  --border-accent: rgba(0, 212, 255, 0.3);
 
-  --text: #d8e8f5;
-  --text-2: #7096b8;
-  --text-3: #3d5a7a;
+  --text: #eaf2fb;
+  --text-2: #8aaeca;
+  --text-3: #506e8a;
 
   --cyan: #00d4ff;
   --cyan-10: rgba(0, 212, 255, 0.08);
@@ -261,7 +261,7 @@ body {
 .dashboard { display: flex; flex-direction: column; gap: 20px; }
 
 .posture-banner {
-  background: linear-gradient(135deg, #0d1b30 0%, #0a1628 50%, #0d2040 100%);
+  background: linear-gradient(135deg, #182c47 0%, #152540 50%, #1a2f50 100%);
   border: 1px solid var(--border-2);
   border-radius: 12px;
   padding: 20px 28px;
@@ -1453,7 +1453,7 @@ tr.clickable:hover td { background: var(--card-hover); }
 }
 
 .res-banner {
-  background: linear-gradient(135deg, #0d1b30 0%, #0a1a2a 50%, #081520 100%);
+  background: linear-gradient(135deg, #182c47 0%, #152538 50%, #111e30 100%);
   border: 1px solid var(--border-2); border-radius: 12px;
   padding: 20px 28px; display: flex; flex-direction: column; gap: 16px;
   position: relative; overflow: hidden;
@@ -1513,7 +1513,7 @@ tr.clickable:hover td { background: var(--card-hover); }
 }
 
 .ev-banner {
-  background: linear-gradient(135deg, #0d2010 0%, #091a10 50%, #060f08 100%);
+  background: linear-gradient(135deg, #142b1a 0%, #111f14 50%, #0e1a10 100%);
   border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 12px;
   padding: 20px 28px; display: flex; flex-direction: column; gap: 16px;
   position: relative; overflow: hidden;
@@ -1564,7 +1564,7 @@ tr.clickable:hover td { background: var(--card-hover); }
 }
 
 .gov-banner {
-  background: linear-gradient(135deg, #0d1b30 0%, #0d2210 60%, #0a1628 100%);
+  background: linear-gradient(135deg, #182c47 0%, #162c1a 60%, #152540 100%);
   border: 1px solid var(--border-2);
   border-radius: 12px;
   padding: 20px 28px;
@@ -1665,7 +1665,7 @@ tr.clickable:hover td { background: var(--card-hover); }
 
 /* Banner */
 .ai-banner {
-  background: linear-gradient(135deg, #0d1b30 0%, #130d2a 60%, #0a1628 100%);
+  background: linear-gradient(135deg, #182c47 0%, #1a1038 60%, #152540 100%);
   border: 1px solid var(--border-2);
   border-radius: 12px;
   padding: 20px 28px;
