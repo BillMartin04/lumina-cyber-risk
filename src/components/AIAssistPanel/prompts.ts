@@ -141,6 +141,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'Dependency chain analysis',  prompt: 'Analyse the CI relationship map and identify the most critical dependency chains — which single CIs, if they failed, would cascade across the most other business services?', action: 'risk-deep-dive' },
         { label: 'Operational issues triage',  prompt: 'List all configuration items not in operational status, assess their business impact based on criticality and dependencies, and recommend a prioritised remediation order.', action: 'recommend-controls' },
       ];
+    case 'oversight':
+      return [
+        { label: 'Cross-domain risk summary',    prompt: 'Provide a 2nd Line oversight summary of risk posture across all domains — highlight which domains are outside risk appetite, note KRI breach concentrations, and flag any domains with both high risk scores and low control implementation.', action: 'summarize' },
+        { label: 'Regulatory breach analysis',   prompt: 'Analyse the regulatory framework coverage data. Which frameworks have compliance below 85%? What are the common control gaps likely causing these shortfalls, and what remediation priority should the 2nd Line assign?', action: 'compliance-check' },
+        { label: 'Control assurance report',     prompt: 'Draft a 2nd Line control assurance summary covering overall implementation rate, domains with the most not-implemented controls, and recommended assurance activities for the next quarter.', action: 'report-draft' },
+        { label: 'Board risk narrative',         prompt: 'Draft a concise board-level risk narrative (3–4 paragraphs) based on the current oversight dashboard — suitable for inclusion in a board risk committee paper. Include overall posture, key concerns, and management actions.', action: 'report-draft' },
+      ];
     default:
       return [
         { label: 'General risk summary',       prompt: 'Provide a general cyber risk summary for this view.',                           action: 'summarize' },

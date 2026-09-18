@@ -155,7 +155,7 @@ export default function NavSidebar() {
           {navBtn('/cmdb', 'Asset & Config (CMDB)', <Server size={14} />, '#A78BFA')}
 
           <div className="nav-section-label" style={{ marginTop: 10 }}>Oversight</div>
-          {soonBtn('Oversight Dashboard',  <BarChart3 size={14} />)}
+          {navBtn('/oversight', 'Oversight Dashboard', <BarChart3 size={14} />, '#A78BFA')}
           {soonBtn('Compliance Register',  <Globe size={14} />)}
           {soonBtn('Horizon Scanning',     <ShieldCheck size={14} />)}
           {soonBtn('Risk Aggregation',     <Calculator size={14} />)}
