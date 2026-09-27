@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
-import { Shield, Sparkles } from 'lucide-react';
+import { Shield, Sparkles, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../hooks/useTheme';
 import NavSidebar from './NavSidebar';
 import { PORTAL_DATE } from '../data/cyberRiskData';
 import { AIAssistProvider, useAIAssist } from '../context/AIAssistContext';
@@ -82,6 +83,8 @@ function FloatingToggle() {
 }
 
 function Layout() {
+  const { theme, toggle } = useTheme();
+
   return (
     <div className="app-shell">
       <PageContextSync />
@@ -97,6 +100,22 @@ function Layout() {
         <div className="app-header-meta">
           <span className="live-badge">● LIVE</span>
           <span>{PORTAL_DATE}</span>
+          <button
+            onClick={toggle}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 5,
+              padding: '4px 10px', borderRadius: 6,
+              background: 'var(--card)', border: '1px solid var(--border)',
+              color: 'var(--text-2)', cursor: 'pointer', fontSize: 11,
+              fontWeight: 500, transition: 'all 0.15s',
+            }}
+          >
+            {theme === 'dark'
+              ? <><Sun size={13} /><span>Light</span></>
+              : <><Moon size={13} /><span>Dark</span></>
+            }
+          </button>
         </div>
       </header>
 
