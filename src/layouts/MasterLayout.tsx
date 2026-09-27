@@ -33,6 +33,7 @@ function PageContextSync() {
     else if (pathname.startsWith('/export'))            page = 'export';
     else if (pathname.startsWith('/cmdb'))              page = 'cmdb';
     else if (pathname.startsWith('/oversight'))         page = 'oversight';
+    else if (pathname.startsWith('/compliance'))        page = 'compliance';
     setPageContext({ page, domainId, riskId });
   }, [pathname, domainId, riskId, setPageContext]);
 
