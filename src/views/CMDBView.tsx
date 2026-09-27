@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Server, Database, Cloud, Globe, Cpu, Network, Box, Layers,
   AlertTriangle, CheckCircle, Wrench, ChevronDown, ChevronRight,
-  Shield, Link2, RefreshCw,
+  Shield, Link2,
 } from 'lucide-react';
 import { CMDBService } from '../services/CMDBService';
 import type { CMDBData, ConfigurationItem, CIClass, CIBusinessCriticality } from '../models';
@@ -243,33 +243,10 @@ const FILTER_OPTIONS: { key: FilterKey; label: string }[] = [
 ];
 
 export default function CMDBView() {
-  const [data, setData]         = useState<CMDBData | null>(null);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState<string | null>(null);
+  const data = CMDBService.getCMDBData();
   const [filter, setFilter]     = useState<FilterKey>('all');
   const [classFilter, setClassFilter] = useState<CIClass | 'all'>('all');
   const [opsFilter, setOpsFilter] = useState(false);
-
-  useEffect(() => {
-    CMDBService.getCMDBData()
-      .then(setData)
-      .catch(e => setError(e instanceof Error ? e.message : 'Failed to load CMDB'))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return (
-    <div style={styles.center}>
-      <RefreshCw size={18} color="var(--cyan)" style={{ animation: 'spin 1s linear infinite' }} />
-      <span style={{ color: 'var(--text-muted)', marginLeft: 10 }}>Loading CMDB…</span>
-    </div>
-  );
-
-  if (error || !data) return (
-    <div style={styles.center}>
-      <AlertTriangle size={18} color="#FF5252" />
-      <span style={{ color: '#FF5252', marginLeft: 8 }}>{error ?? 'No data'}</span>
-    </div>
-  );
 
   const filtered = data.items.filter(ci => {
     if (filter !== 'all' && ci.businessCriticality !== filter) return false;
