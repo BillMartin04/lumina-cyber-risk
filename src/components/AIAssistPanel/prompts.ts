@@ -141,6 +141,13 @@ export function getSuggestedPrompts(page: string): SuggestedPrompt[] {
         { label: 'Dependency chain analysis',  prompt: 'Analyse the CI relationship map and identify the most critical dependency chains — which single CIs, if they failed, would cascade across the most other business services?', action: 'risk-deep-dive' },
         { label: 'Operational issues triage',  prompt: 'List all configuration items not in operational status, assess their business impact based on criticality and dependencies, and recommend a prioritised remediation order.', action: 'recommend-controls' },
       ];
+    case 'compliance':
+      return [
+        { label: 'Non-compliance risk summary',  prompt: 'Identify all non-compliant and partially compliant obligations. Group them by framework and assess the combined regulatory risk exposure. Which frameworks carry the highest breach risk?',          action: 'risk-deep-dive' },
+        { label: 'Remediation priority plan',    prompt: 'For each non-compliant or partial obligation, draft a prioritised remediation plan with suggested actions, owners, and timelines. Focus on critical and high priority obligations first.',           action: 'recommend-controls' },
+        { label: 'Compliance status report',     prompt: 'Draft a compliance status report suitable for the Board Risk Committee. Summarise overall compliance posture, highlight critical gaps, upcoming deadlines, and management actions in progress.',      action: 'report-draft' },
+        { label: 'Evidence gap analysis',        prompt: 'Review obligations with low evidence counts (under 5 items). Which obligations are most at risk of being unable to demonstrate compliance to regulators? What evidence should be collected urgently?', action: 'compliance-check' },
+      ];
     case 'oversight':
       return [
         { label: 'Cross-domain risk summary',    prompt: 'Provide a 2nd Line oversight summary of risk posture across all domains — highlight which domains are outside risk appetite, note KRI breach concentrations, and flag any domains with both high risk scores and low control implementation.', action: 'summarize' },

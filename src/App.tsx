@@ -21,6 +21,7 @@ import IncidentTriggerView from './views/IncidentTriggerView';
 import ExportView from './views/ExportView';
 import CMDBView from './views/CMDBView';
 import OversightDashboardView from './views/OversightDashboardView';
+import ComplianceRegisterView from './views/ComplianceRegisterView';
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/export"            element={<ExportView />} />
         <Route path="/cmdb"              element={<CMDBView />} />
         <Route path="/oversight"         element={<OversightDashboardView />} />
+        <Route path="/compliance"        element={<ComplianceRegisterView />} />
       </Route>
     </Routes>
   );

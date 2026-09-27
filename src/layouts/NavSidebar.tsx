@@ -156,7 +156,7 @@ export default function NavSidebar() {
 
           <div className="nav-section-label" style={{ marginTop: 10 }}>Oversight</div>
           {navBtn('/oversight', 'Oversight Dashboard', <BarChart3 size={14} />, '#A78BFA')}
-          {soonBtn('Compliance Register',  <Globe size={14} />)}
+          {navBtn('/compliance', 'Compliance Register', <Globe size={14} />, '#A78BFA')}
           {soonBtn('Horizon Scanning',     <ShieldCheck size={14} />)}
           {soonBtn('Risk Aggregation',     <Calculator size={14} />)}
           {soonBtn('Control Assurance',    <FlaskConical size={14} />)}
