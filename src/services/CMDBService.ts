@@ -1,11 +1,10 @@
 import { CMDBRepository } from '../repositories/CMDBRepository';
-import type { ICMDBService } from './interfaces/ICMDBService';
 import type { CMDBData } from '../models';
 
 const repo = new CMDBRepository();
 
-class CMDBServiceImpl implements ICMDBService {
-  async getCMDBData(): Promise<CMDBData> {
+class CMDBServiceImpl {
+  getCMDBData(): CMDBData {
     return repo.getCMDBData();
   }
 }
