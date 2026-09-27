@@ -1,15 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Shield, Database, Monitor, Code, Network,
-  Building, Cloud, Users, Cpu, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical, Siren, FileDown, Server,
-  type LucideIcon,
+  LayoutDashboard, Settings, BarChart3, Brain, ShieldCheck, Activity, FileCheck, UserCheck, GitBranch, ClipboardList, Globe, Calculator, ListChecks, Coins, FlaskConical, Siren, FileDown, Server, Network,
 } from 'lucide-react';
 import { DomainService } from '../services/DomainService';
-
-const DOMAIN_ICONS: Record<string, LucideIcon> = {
-  Shield, Database, Monitor, Code, Network, Building, Cloud, Users, Cpu,
-};
 
 export type Line = '1st' | '2nd' | '3rd' | '4th';
 
@@ -104,7 +98,6 @@ export default function NavSidebar() {
 
           <div className="nav-section-label" style={{ marginTop: 12 }}>Risk Domains</div>
           {domains.map(domain => {
-            const Icon = DOMAIN_ICONS[domain.iconName] ?? Shield;
             const isActive = pathname.startsWith(`/domain/${domain.id}`);
             return (
               <button
@@ -113,7 +106,6 @@ export default function NavSidebar() {
                 onClick={() => navigate(`/domain/${domain.id}`)}
               >
                 <div className="nav-domain-dot" style={{ background: domain.color }} />
-                <Icon size={13} color={isActive ? domain.color : undefined} />
                 <span>{domain.name}</span>
               </button>
             );
